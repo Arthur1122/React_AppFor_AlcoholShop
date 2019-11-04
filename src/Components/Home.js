@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Table } from "react-bootstrap";
+import axios from "axios";
 
 export default class Home extends Component {
   constructor(props) {
@@ -12,28 +13,11 @@ export default class Home extends Component {
   }
 
   refreshList() {
-    this.setState({
-      items: [
-        {
-          Id: 1,
-          Name: "Ararat",
-          Alcohol_type: "Congac",
-          Year_of_alcohol: 20,
-          Alcohol_degree: 65,
-          Made_In: "Armenia",
-          Pulled_from: "Grapes"
-        },
-        {
-          Id: 2,
-          Name: "Nane",
-          Alcohol_type: "Congac",
-          Year_of_alcohol: 20,
-          Alcohol_degree: 65,
-          Made_In: "Armenia",
-          Pulled_from: "Grapes"
-        }
-      ]
-    });
+    fetch("http://localhost:1111/api/Alcohols")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ items: data });
+      });
   }
 
   render() {
@@ -53,14 +37,14 @@ export default class Home extends Component {
         </thead>
         <tbody>
           {items.map(item => (
-            <tr Key={item.Id}>
-              <td>{item.Id}</td>
-              <td>{item.Name}</td>
-              <td>{item.Alcohol_type}</td>
-              <td>{item.Year_of_alcohol}</td>
-              <td>{item.Alcohol_degree}</td>
-              <td>{item.Made_In}</td>
-              <td>{item.Pulled_from}</td>
+            <tr key={item.model_Id}>
+              <td>{item.model_Id}</td>
+              <td>{item.model_Name}</td>
+              <td>{item.model_Alcohol_type}</td>
+              <td>{item.model_Year_of_alcohol}</td>
+              <td>{item.model_Alcohol_degree}</td>
+              <td>{item.model_Made_In}</td>
+              <td>{item.model_Pulled_from}</td>
             </tr>
           ))}
         </tbody>
