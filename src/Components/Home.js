@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Table } from "react-bootstrap";
-import axios from "axios";
 
 export default class Home extends Component {
   constructor(props) {
@@ -26,7 +25,6 @@ export default class Home extends Component {
       <Table className="mt-4" striped bordered hover size="sm">
         <thead>
           <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Alcohol_type</th>
             <th>Year_of_alcohol</th>
@@ -38,7 +36,6 @@ export default class Home extends Component {
         <tbody>
           {items.map(item => (
             <tr key={item.model_Id}>
-              <td>{item.model_Id}</td>
               <td>{item.model_Name}</td>
               <td>{item.model_Alcohol_type}</td>
               <td>{item.model_Year_of_alcohol}</td>
