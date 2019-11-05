@@ -21,6 +21,10 @@ export default class Home extends Component {
         this.setState({ items: data });
       });
   }
+  componentDidUpdate() {
+    /*{ after add will be refresh list autamaticy }*/
+    this.refreshList();
+  }
 
   render() {
     const { items } = this.state;
