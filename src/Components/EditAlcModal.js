@@ -5,14 +5,13 @@ import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 
-export default class AddDeepModal extends Component {
+export default class EditAlcModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       snackbaropen: false,
       snackbarmsg: ""
     };
-
     this.submitHandler = this.submitHandler.bind(this); // for snackbar
   }
 
@@ -22,21 +21,19 @@ export default class AddDeepModal extends Component {
   };
 
   //When input data it will be changed here
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
 
-  //Implementing POST request
+  //Implementing PUT request
   submitHandler = e => {
     e.preventDefault();
 
     fetch("http://localhost:1111/api/alcohols", {
-      method: "POST",
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        model_Id: e.target.model_Id.value,
         model_Name: e.target.model_Name.value,
         model_Alcohol_type: e.target.model_Alcohol_type.value,
         model_Year_of_alcohol: e.target.model_Year_of_alcohol.value,
@@ -48,13 +45,14 @@ export default class AddDeepModal extends Component {
       .then(response => {
         this.setState({
           snackbaropen: true,
-          snackbarmsg: "Added succesfuly"
+          snackbarmsg: "Updated succesfuly"
         });
         console.log(response);
+
         //alert("Added succesfuly");
       })
       .catch(error => {
-        this.setState({ snackbaropen: true, snackbarmsg: "Failed" });
+        this.setState({ snackbaropen: true, snackbarmsg: error });
         console.log(error);
       });
   };
@@ -87,7 +85,7 @@ export default class AddDeepModal extends Component {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              Add Alchohol
+              Edit Alchohol
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -97,12 +95,23 @@ export default class AddDeepModal extends Component {
               <Row>
                 <Col sm={6}>
                   <Form onSubmit={this.submitHandler}>
+                    <Form.Group controlId="model_Id">
+                      <Form.Control
+                        type="number"
+                        name="model_Id"
+                        required
+                        disabled
+                        defaultValue={this.props.alcid}
+                      />
+                    </Form.Group>
+
                     <Form.Group controlId="model_Name">
                       <Form.Label>Alcohol Name</Form.Label>
                       <Form.Control
                         type="text"
                         name="model_Name"
                         required
+                        defaultValue={this.props.alcname}
                         placeholder="Input Alcohol name"
                       />
                     </Form.Group>
@@ -112,6 +121,7 @@ export default class AddDeepModal extends Component {
                         type="text"
                         name="model_Alcohol_type"
                         required
+                        defaultValue={this.props.alctype}
                         placeholder="Input Alcohol type"
                       />
                     </Form.Group>
@@ -122,6 +132,7 @@ export default class AddDeepModal extends Component {
                         name="model_Year_of_alcohol"
                         required
                         placeholder="Input Alcohol old"
+                        defaultValue={this.props.alcold}
                       />
                     </Form.Group>
                     <Form.Group controlId="model_Alcohol_degree">
@@ -131,6 +142,7 @@ export default class AddDeepModal extends Component {
                         name="model_Alcohol_degree"
                         required
                         placeholder="Input Alcohol degree"
+                        defaultValue={this.props.alcdegre}
                       />
                     </Form.Group>
                     <Form.Group controlId="model_Made_In">
@@ -140,6 +152,7 @@ export default class AddDeepModal extends Component {
                         name="model_Made_In"
                         required
                         placeholder="Input Made in"
+                        defaultValue={this.props.alcmade}
                       />
                     </Form.Group>
                     <Form.Group controlId="model_Pulled_from">
@@ -149,11 +162,12 @@ export default class AddDeepModal extends Component {
                         name="model_Pulled_from"
                         required
                         placeholder="Input from puuld ?"
+                        defaultValue={this.props.alcfrom}
                       />
                     </Form.Group>
                     <Form.Group>
                       <Button variant="primary" type="submit">
-                        Add alcohol
+                        Edit alcohol
                       </Button>
                     </Form.Group>
                   </Form>
