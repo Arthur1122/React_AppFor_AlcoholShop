@@ -33,7 +33,22 @@ export default class Home extends Component {
       .then(data => {
         this.setState({ items: data });
       });
+  }
+
+  deletetAlc(alcId) {
+    if (window.confirm("Are you sure ?")) {
+      fetch("http://localhost:1111/api/alcohols/" + alcId, {
+        method: "DELETE",
+        header: {
+          Accept: "application/json",
+          "Content-Type": "applcation/json"
+        }
+      }).then(result => {
+        console.log(result);
+        this.componentDidMount();
+      });
     }
+  }
 
   render() {
     const {
@@ -66,14 +81,14 @@ export default class Home extends Component {
           <tbody>
             {items.map(item => (
               <tr key={item.model_Id}>
-                <tdo>{item.model_Name}</td>
+                <td>{item.model_Name}</td>
                 <td>{item.model_Alcohol_type}</td>
                 <td>{item.model_Year_of_alcohol}</td>
                 <td>{item.model_Alcohol_degree}</td>
                 <td>{item.model_Made_In}</td>
                 <td>{item.model_Pulled_from}</td>
                 <td>
-                  <ButtnToolbar>
+                  <ButtonToolbar>
                     <Button
                       className="mr-2"
                       variant="info"
@@ -91,6 +106,14 @@ export default class Home extends Component {
                       }}
                     >
                       Edit
+                    </Button>
+
+                    <Button
+                      className="mr-2"
+                      onClick={() => this.deletetAlc(item.model_Id)}
+                      variant="danger"
+                    >
+                      Delete
                     </Button>
 
                     <EditAlcModal
